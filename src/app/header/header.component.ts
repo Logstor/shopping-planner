@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { HeaderState } from './HeaderState';
 
 @Component({
   selector: 'app-header',
@@ -7,6 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit
 {
+  @Output('state')
+  readonly currentState: EventEmitter<HeaderState> = new EventEmitter();
+
+  readonly HeaderStateType = HeaderState;
+
   collapsed: boolean = true;
 
   constructor() { }
