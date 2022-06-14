@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Recipe } from '../Recipe';
 
 @Component({
@@ -8,7 +8,10 @@ import { Recipe } from '../Recipe';
 })
 export class RecipeListComponent implements OnInit
 {
-  recipes: Recipe[] = [
+  @Output()
+  readonly clickedRecipeItem: EventEmitter<Recipe> = new EventEmitter();
+
+  readonly recipes: Recipe[] = [
     new Recipe(
       "Dahl", 
       "Linser og alt andet bliver bare smadret sammen på samme tid.", 
