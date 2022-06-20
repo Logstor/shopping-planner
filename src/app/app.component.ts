@@ -8,7 +8,7 @@ import { HeaderState } from './header/HeaderState';
 })
 export class AppComponent
 {
-  headerState: HeaderState = HeaderState.ShoppingList;
+  headerState: HeaderState = HeaderState.Recipe;
   readonly HeaderStateType = HeaderState;
 
   onHeaderStateChange(nState: HeaderState)
