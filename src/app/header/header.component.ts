@@ -1,4 +1,5 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { HeaderState } from './HeaderState';
 
 @Component({
@@ -8,15 +9,28 @@ import { HeaderState } from './HeaderState';
 })
 export class HeaderComponent implements OnInit
 {
-  @Output('state')
-  readonly currentState: EventEmitter<HeaderState> = new EventEmitter();
-
   readonly HeaderStateType = HeaderState;
 
-  collapsed: boolean = true;
+  navbarCollapsed: boolean = true;
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void { }
+
+  /**
+   * 
+   */
+  navigateRecipe(): void 
+  {
+    this.router.navigate(['recipes'])
+  }
+
+  /**
+   * 
+   */
+  navigateShoppingList(): void
+  {
+    this.router.navigate(['shopping-list'])
+  }
 
 }
