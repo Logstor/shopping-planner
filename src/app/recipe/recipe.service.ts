@@ -5,8 +5,6 @@ import { Recipe } from "./recipes/recipe.model";
 @Injectable({providedIn: 'root'})
 export class RecipeService
 {
-    public readonly recipeSelected = new EventEmitter<Recipe>();
-
     private readonly recipes: Recipe[] = [
         new Recipe(
           "Dahl", 
@@ -25,4 +23,17 @@ export class RecipeService
     ];
 
     public get recipeList() { return this.recipes.slice(); }
+
+    public getById(id: number): Recipe
+    {
+      return this.recipes[id];
+    }
+
+    public getByName(name: string): Recipe
+    {
+      const found: Recipe = this.recipes.find(
+        (recipe: Recipe) => recipe.name === name
+      );
+      return found;
+    }
 }

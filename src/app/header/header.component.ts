@@ -14,20 +14,4 @@ export class HeaderComponent implements OnInit
 
   ngOnInit(): void { }
 
-  /**
-   * 
-   */
-  navigateRecipe(): void 
-  {
-    this.router.navigate(['recipes'])
-  }
-
-  /**
-   * 
-   */
-  navigateShoppingList(): void
-  {
-    this.router.navigate(['shopping-list'])
-  }
-
 }
