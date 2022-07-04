@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { HeaderState } from './HeaderState';
 
 @Component({
   selector: 'app-header',
@@ -9,8 +8,6 @@ import { HeaderState } from './HeaderState';
 })
 export class HeaderComponent implements OnInit
 {
-  readonly HeaderStateType = HeaderState;
-
   navbarCollapsed: boolean = true;
 
   constructor(private router: Router) { }
