@@ -35,9 +35,15 @@ export class RecipeDetailComponent implements OnInit
     );
   }
 
-  onEditClick(): void
+  onEdit(): void
   {
     this.router.navigate(['edit'], { relativeTo: this.route, queryParamsHandling: 'preserve' })
+  }
+
+  onDelete(): void 
+  {
+    this.recipeService.deleteRecipe(this.id);
+    this.router.navigate([`/recipes`]);
   }
 
   addToShoppingList(): void
