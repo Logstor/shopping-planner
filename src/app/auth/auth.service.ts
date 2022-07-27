@@ -6,6 +6,7 @@ import { catchError, tap } from 'rxjs/operators';
 import { SignInRequest } from './sign-in-request.model';
 import { SignUpRequest } from './sign-up-request.model';
 import { User } from './user.model';
+import { environment } from 'src/environments/environment';
 
 /**
  * Response interface for signin and signup requests.
@@ -27,6 +28,9 @@ export interface AuthResponseData
 })
 export class AuthService 
 {
+  private readonly signupUrl: string = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${ environment.firebaseAPIKey }`;
+  private readonly loginUrl: string = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${ environment.firebaseAPIKey }`;
+
   readonly user: BehaviorSubject<User> = new BehaviorSubject<User>(null);
   private tokenExpirationTimer: any;
 
@@ -36,7 +40,7 @@ export class AuthService
   {
     return this.http
       .post<AuthResponseData>(
-        'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBLEA8KuOMrUfmFJu3uwna9rix-vAPNA44',
+        this.signupUrl,
         new SignUpRequest(
           email,
           password,
@@ -53,7 +57,7 @@ export class AuthService
   {
     return this.http
       .post<AuthResponseData>(
-        'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBLEA8KuOMrUfmFJu3uwna9rix-vAPNA44',
+        this.loginUrl,
         new SignInRequest(
           email,
           password,
