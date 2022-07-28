@@ -1,8 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
+import * as AA from '../auth/store/auth.actions';
+import { AuthState } from '../auth/store/auth.reducer';
 import { DataStorageService } from '../shared/data-storage.service';
+import { AppState } from '../store/app.reducer';
 
 @Component({
   selector: 'app-header',
@@ -19,14 +23,16 @@ export class HeaderComponent implements OnInit, OnDestroy
   constructor(
     private readonly router: Router, 
     private readonly dataStorage: DataStorageService,
-    private readonly auth: AuthService
+    private readonly auth: AuthService,
+    private readonly store: Store<AppState>
   ) { }
 
   ngOnInit(): void 
   {
-    this.userSub = this.auth.user.subscribe(user => {
-      this.isAuthenticated = !!user; // First check whether there's no user and second inverts that so if it isn't null it's true
-    });
+    this.userSub = this.store.select('auth')
+      .subscribe((authState: AuthState) => {
+        this.isAuthenticated = !!authState.user; // First check whether there's no user and second inverts that so if it isn't null it's true
+      });
   }
 
   ngOnDestroy(): void 
@@ -51,6 +57,6 @@ export class HeaderComponent implements OnInit, OnDestroy
 
   onLogout(): void
   {
-    this.auth.logout();
+    this.store.dispatch(new AA.Logout());
   }
 }
