@@ -1,14 +1,31 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Actions, createEffect, ofType } from "@ngrx/effects";
-import { map, switchMap } from "rxjs/operators";
+import { Actions, concatLatestFrom, createEffect, ofType } from "@ngrx/effects";
+import { Store } from "@ngrx/store";
+import { map, switchMap, withLatestFrom } from "rxjs/operators";
 
 import * as RA from 'src/app/recipe/store/recipes.actions';
+import { AppState } from "src/app/store/app.reducer";
 import { Recipe } from "../recipes/recipe.model";
 
 @Injectable()
 export class RecipeEffects
 {
+    storeRecipes$ = createEffect(() => {
+        return this.actions$
+            .pipe(
+                ofType(RA.STORE_RECIPES),
+                concatLatestFrom(() => this.store.select('recipes')),
+                switchMap( ([action, recipesState]) => {
+                    return this.http
+                        .put(
+                            'https://shoppingplanner-8923c-default-rtdb.europe-west1.firebasedatabase.app/recipes.json',
+                            recipesState.recipes
+                        );
+                })
+            )
+    }, { dispatch: false });
+
     fetchRecipes$ = createEffect(() => {
         return this.actions$
             .pipe(
@@ -36,5 +53,6 @@ export class RecipeEffects
     constructor(
         private readonly actions$: Actions,
         private readonly http: HttpClient,
+        private readonly store: Store<AppState>
     ) {}
 }

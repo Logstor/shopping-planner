@@ -3,9 +3,7 @@ import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from "@angular/r
 import { Store } from "@ngrx/store";
 import { Observable, of } from "rxjs";
 
-import { DataStorageService } from "src/app/shared/data-storage.service";
 import { AppState } from "src/app/store/app.reducer";
-import { RecipeService } from "../recipe.service";
 import { Recipe } from "./recipe.model";
 import * as RA from 'src/app/recipe/store/recipes.actions';
 import { Actions, ofType } from "@ngrx/effects";
@@ -17,8 +15,6 @@ import { map, switchMap, take } from "rxjs/operators";
 export class RecipesResolverService implements Resolve<Recipe[]>
 {
     constructor(
-        private readonly dataStorage: DataStorageService, 
-        private readonly recipesService: RecipeService,
         private readonly store: Store<AppState>,
         private readonly actions$: Actions
     ) { }
