@@ -1,0 +1,49 @@
+{
+  "$schema": "./node_modules/@angular/service-worker/config/schema.json",
+  "index": "/index.html",
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "resources": {
+        "files": [
+          "/favicon.ico",
+          "/index.html",
+          "/manifest.webmanifest",
+          "/*.css",
+          "/*.js"
+        ],
+        "urls": [
+          "https://fonts.googleapis.com/css2?family=Inter:wght@200;300&display=swap",
+          "https://fonts.gstatic.com/**",
+          "https://fonts.googleapis.com/**"
+        ]
+      }
+    },
+    {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "resources": {
+        "files": [
+          "/assets/**",
+          "/*.(svg|cur|jpg|jpeg|png|apng|webp|avif|gif|otf|ttf|woff|woff2)"
+        ]
+      }
+    }
+  ], 
+  "dataGroups": [
+    {
+      "name": "recipes",
+      "urls": [
+        "https://shoppingplanner-8923c-default-rtdb.europe-west1.firebasedatabase.app/recipes.json"
+      ],
+      "cacheConfig": {
+        "maxSize": 2,
+        "maxAge": "6h",
+        "timeout": "5s",
+        "strategy": "freshness"
+      }
+    }
+  ]
+}
