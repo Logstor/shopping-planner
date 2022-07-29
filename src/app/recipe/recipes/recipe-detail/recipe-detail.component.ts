@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { map, switchMap } from 'rxjs/operators';
 
 import * as SLA from 'src/app/shopping/store/shopping-list.actions';
+import * as RA from 'src/app/recipe/store/recipes.actions';
 import * as fromApp from 'src/app/store/app.reducer';
-import { RecipeService } from '../../recipe.service';
+import { RecipeState } from '../../store/recipes.reducer';
 import { Recipe } from '../recipe.model';
 
 @Component({
@@ -20,22 +22,30 @@ export class RecipeDetailComponent implements OnInit
   constructor(
     private readonly router: Router,
     private readonly route: ActivatedRoute,
-    private readonly recipeService: RecipeService,
     private readonly store: Store<fromApp.AppState>
   ) { }
 
   ngOnInit(): void 
   {
-    // Set initial Recipe
-    // this.recipe = this.recipeService.getById(+this.route.snapshot.params['id']);
-
     // Subscribe to changes
-    this.route.params.subscribe(
-      (params: Params) => { 
-        this.id = +params['id'];
-        this.recipe = this.recipeService.getById(this.id); 
-      }
-    );
+    this.route.params
+      .pipe(
+        map(params => {
+          return +params['id'];
+        }),
+        switchMap(id => {
+          this.id = id;
+          return this.store.select('recipes');
+        }),
+        map( (recipeState: RecipeState) => {
+          return recipeState.recipes.find( (recipe: Recipe, index: number) => {
+            return index === this.id;
+          });
+        })
+      )
+      .subscribe( (recipe: Recipe) => {
+        this.recipe = recipe;
+      });
   }
 
   onEdit(): void
@@ -45,14 +55,13 @@ export class RecipeDetailComponent implements OnInit
 
   onDelete(): void 
   {
-    this.recipeService.deleteRecipe(this.id);
+    // this.recipeService.deleteRecipe(this.id);
+    this.store.dispatch(new RA.DeleteRecipe(this.id));
     this.router.navigate([`/recipes`]);
   }
 
   addToShoppingList(): void
   {
     this.store.dispatch(new SLA.AddIngredients(this.recipe.ingredients));
-
-    // this.slService.addIngredients(this.recipe.ingredients);
   }
 }

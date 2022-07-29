@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 import * as AA from '../auth/store/auth.actions';
+import * as RA from 'src/app/recipe/store/recipes.actions';
 import { AuthState } from '../auth/store/auth.reducer';
 import { DataStorageService } from '../shared/data-storage.service';
 import { AppState } from '../store/app.reducer';
@@ -47,12 +48,14 @@ export class HeaderComponent implements OnInit, OnDestroy
 
   onFetchData(): void
   {
-    if (this.isFetching) return;
+    // if (this.isFetching) return;
 
-    this.isFetching = true;
-    this.dataStorage.fetchRecipes().subscribe(
-      () => {}, error => {}, () => this.isFetching = false
-    );
+    // this.isFetching = true;
+    // this.dataStorage.fetchRecipes().subscribe(
+    //   () => {}, error => {}, () => this.isFetching = false
+    // );
+    
+    this.store.dispatch(new RA.FetchRecipes());
   }
 
   onLogout(): void

@@ -1,26 +1,7 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { throwError } from 'rxjs';
-import { User } from './user.model';
-import { environment } from 'src/environments/environment';
 import { Store } from '@ngrx/store';
 import { AppState } from '../store/app.reducer';
 import * as AuthAction from 'src/app/auth/store/auth.actions';
-
-/**
- * Response interface for signin and signup requests.
- */
-export interface AuthResponseData
-{
-  kind: string;
-  idToken: string;
-  email: string;
-  refreshToken: string;
-  expiresIn: string;
-  localId: string;
-  /** Only for signin */
-  registered?: boolean;
-}
 
 @Injectable({
   providedIn: 'root'
@@ -32,7 +13,6 @@ export class AuthService
   constructor(
     private readonly store: Store<AppState>
   ) { }
-
 
   /**
    * 

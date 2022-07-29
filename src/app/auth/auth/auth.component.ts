@@ -3,10 +3,10 @@ import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { PlaceholderDirective } from 'src/app/shared/placeholder/placeholder.directive';
 import { AppState } from 'src/app/store/app.reducer';
-import { AuthResponseData, AuthService } from '../auth.service';
+import { AuthService } from '../auth.service';
 import * as AuthActions from 'src/app/auth/store/auth.actions';
 import { AuthState } from '../store/auth.reducer';
 
