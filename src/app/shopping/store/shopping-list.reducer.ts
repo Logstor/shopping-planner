@@ -9,9 +9,7 @@ export interface ShoppingState
 }
 
 const initialState: ShoppingState = {
-    ingredients: [
-        new Ingredient('Danskvand', 3)
-    ],
+    ingredients: [],
     editedIngredient: null,
     editedIngredientIndex: -1
 };
@@ -31,6 +29,10 @@ export function shoppingListReducer(state: ShoppingState = initialState, action:
                 ... state,
                 ingredients: [... state.ingredients, ... (action as SLA.AddIngredients).payload]
             };
+
+        case SLA.MERGE_INGREDIENTS:
+            
+            return { ...state };
         
         case SLA.UPDATE_INGREDIENT:
             const ingredient = state.ingredients[state.editedIngredientIndex];

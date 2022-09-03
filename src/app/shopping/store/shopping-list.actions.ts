@@ -3,6 +3,7 @@ import { Ingredient } from "src/app/shared/Ingredient";
 
 export const ADD_INGREDIENT = '[Shopping List] Add Ingredient';
 export const ADD_INGREDIENTS = '[Shopping List] Add Ingredients';
+export const MERGE_INGREDIENTS = '[Shopping List] Merge Ingredients';
 export const UPDATE_INGREDIENT = '[Shopping List] Update Ingredient';
 export const DELETE_INGREDIENT = '[Shopping List] Delete Ingredient';
 export const START_EDIT = '[Shopping List] Start Edit';
@@ -18,6 +19,13 @@ export class AddIngredient implements Action
 export class AddIngredients implements Action
 {
     readonly type: string = ADD_INGREDIENTS;
+
+    constructor(public payload: Ingredient[]) {}
+}
+
+export class MergeIngredients implements Action
+{
+    readonly type: string = MERGE_INGREDIENTS;
 
     constructor(public payload: Ingredient[]) {}
 }
