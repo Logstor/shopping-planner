@@ -45,9 +45,11 @@ export function shoppingListReducer(state: ShoppingState = initialState, action:
                 }
             )
 
+            oldList.push(...toBeAdded);
+
             return { 
                 ...state,
-                ingredients: oldList.push(... toBeAdded)
+                ingredients: oldList
             };
         
         case SLA.UPDATE_INGREDIENT:
