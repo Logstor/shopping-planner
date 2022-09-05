@@ -31,8 +31,24 @@ export function shoppingListReducer(state: ShoppingState = initialState, action:
             };
 
         case SLA.MERGE_INGREDIENTS:
-            
-            return { ...state };
+            // Lists to merged in the end
+            const oldList: Ingredient[] = [ ...state.ingredients ];
+            const toBeAdded: Ingredient[] = [];
+
+            // Update duplicates
+            (action as SLA.MergeIngredients).payload.forEach(
+                (nIngredient: Ingredient) => {
+                    const index: number = oldList.findIndex((old: Ingredient) => old.name.toLowerCase() === nIngredient.name.toLowerCase());
+
+                    if (index === -1) toBeAdded.push(nIngredient);
+                    else oldList[index] = new Ingredient(nIngredient.name, nIngredient.amount + oldList[index].amount);
+                }
+            )
+
+            return { 
+                ...state,
+                ingredients: oldList.push(... toBeAdded)
+            };
         
         case SLA.UPDATE_INGREDIENT:
             const ingredient = state.ingredients[state.editedIngredientIndex];

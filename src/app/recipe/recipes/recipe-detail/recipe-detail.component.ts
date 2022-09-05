@@ -62,6 +62,6 @@ export class RecipeDetailComponent implements OnInit
 
   addToShoppingList(): void
   {
-    this.store.dispatch(new SLA.AddIngredients(this.recipe.ingredients));
+    this.store.dispatch(new SLA.MergeIngredients(this.recipe.ingredients));
   }
 }
