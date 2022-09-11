@@ -18,6 +18,12 @@ export function shoppingListReducer(state: ShoppingState = initialState, action:
 {
     switch (action.type)
     {
+        case SLA.SET_INGREDIENTS:
+            return {
+                ...state,
+                ingredients: [...(action as SLA.SetIngredients).payload]
+            };
+
         case SLA.ADD_INGREDIENT: 
             return {
                 ... state,

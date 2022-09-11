@@ -1,6 +1,9 @@
 import { Action } from "@ngrx/store";
 import { Ingredient } from "src/app/shared/Ingredient";
 
+export const STORE_INGREDIENTS = '[Shopping List] Store Ingredients';
+export const FETCH_INGREDIENTS = '[Shopping List] Fetch Ingredients';
+export const SET_INGREDIENTS = '[Shopping List] Set Ingredients';
 export const ADD_INGREDIENT = '[Shopping List] Add Ingredient';
 export const ADD_INGREDIENTS = '[Shopping List] Add Ingredients';
 export const MERGE_INGREDIENTS = '[Shopping List] Merge Ingredients';
@@ -8,6 +11,27 @@ export const UPDATE_INGREDIENT = '[Shopping List] Update Ingredient';
 export const DELETE_INGREDIENT = '[Shopping List] Delete Ingredient';
 export const START_EDIT = '[Shopping List] Start Edit';
 export const STOP_EDIT = '[Shopping List] Stop Edit';
+
+export class StoreIngredients implements Action
+{
+    readonly type: string = STORE_INGREDIENTS;
+
+    constructor() {}
+}
+
+export class FetchIngredients implements Action
+{
+    readonly type: string = FETCH_INGREDIENTS;
+
+    constructor() {}
+}
+
+export class SetIngredients implements Action
+{
+    readonly type: string = SET_INGREDIENTS;
+
+    constructor(public payload: Ingredient[]) {}
+}
 
 export class AddIngredient implements Action
 {

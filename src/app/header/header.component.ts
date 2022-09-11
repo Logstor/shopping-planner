@@ -3,11 +3,12 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
-import { AuthService } from '../auth/auth.service';
 import * as AA from '../auth/store/auth.actions';
 import * as RA from 'src/app/recipe/store/recipes.actions';
+import * as SLA from 'src/app/shopping/store/shopping-list.actions';
 import { AuthState } from '../auth/store/auth.reducer';
 import { AppState } from '../store/app.reducer';
+import { DialogService } from '../shared/dialog.service';
 
 @Component({
   selector: 'app-header',
@@ -18,40 +19,53 @@ export class HeaderComponent implements OnInit, OnDestroy
 {
   navbarCollapsed: boolean = true;
   isAuthenticated: boolean = false;
-  private userSub: Subscription;
+  private subs: Subscription[] = [];
 
   constructor(
-    private readonly store: Store<AppState>
+    private readonly dialogService: DialogService,
+    private readonly store: Store<AppState>,
+    private readonly router: Router
   ) { }
 
   ngOnInit(): void 
   {
-    this.userSub = this.store.select('auth')
-      .subscribe((authState: AuthState) => {
-        this.isAuthenticated = !!authState.user; // First check whether there's no user and second inverts that so if it isn't null it's true
-      });
+    this.subs.push(
+      this.store.select('auth')
+        .subscribe((authState: AuthState) => {
+          this.isAuthenticated = !!authState.user; // First check whether there's no user and second inverts that so if it isn't null it's true
+        })
+    );
   }
 
   ngOnDestroy(): void 
   {
-    this.userSub.unsubscribe();    
+    this.subs.forEach( sub => sub.unsubscribe() );   
   }
 
   onSaveData(): void
   {
-    this.store.dispatch(new RA.StoreRecipes())
+    const routeUrl: string = this.router.url;
+
+    if (routeUrl === '/recipes')
+    {
+      this.subs.push(
+        this.dialogService.confirm(`Overwrite all the Recipes with the current ones?`)
+          .subscribe((isConfirm: boolean) => isConfirm ? this.store.dispatch(new RA.StoreRecipes()) : console.log("Save cancelled"))
+      );
+    }
+    else if (routeUrl === '/shopping-list')
+    {
+      this.subs.push(
+        this.dialogService.confirm(`Overwrite all ingredients with the current ones?`)
+          .subscribe((isConfirm: boolean) => isConfirm ? this.store.dispatch(new SLA.StoreIngredients()) : console.log("Save cancelled"))
+      );
+    }
   }
 
   onFetchData(): void
   {
-    // if (this.isFetching) return;
-
-    // this.isFetching = true;
-    // this.dataStorage.fetchRecipes().subscribe(
-    //   () => {}, error => {}, () => this.isFetching = false
-    // );
-    
     this.store.dispatch(new RA.FetchRecipes());
+    this.store.dispatch(new SLA.FetchIngredients());
   }
 
   onLogout(): void

@@ -16,6 +16,7 @@ import { AuthEffects } from './auth/store/auth.effects';
 import { environment } from 'src/environments/environment';
 import { RecipeEffects } from './recipe/store/recipes.effects';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { ShoppingListEffects } from './shopping/store/shopping-list.effects';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     StoreModule.forRoot(fromApp.appReducer),
     EffectsModule.forRoot([
       AuthEffects,
-      RecipeEffects
+      RecipeEffects,
+      ShoppingListEffects
     ]),
     StoreDevtoolsModule.instrument({
       logOnly: environment.production
