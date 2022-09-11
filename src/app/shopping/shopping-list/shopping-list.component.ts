@@ -30,4 +30,10 @@ export class ShoppingListComponent implements OnInit, OnDestroy
   {
     this.store.dispatch(new SLA.StartEdit(index));
   }
+
+  onRemoveItem(index: number): void
+  {
+    this.store.dispatch(new SLA.StartEdit(index));
+    this.store.dispatch(new SLA.DeleteIngredient());
+  }
 }

@@ -1,4 +1,4 @@
-<div class="row">
+<!-- <div class="row">
     <div class="col-xs-10">
         <app-shopping-edit></app-shopping-edit>
         <hr>
@@ -9,6 +9,34 @@
                 *ngFor="let ingredient of (this.ingredients | async).ingredients; let i = index"
                 (click)="this.onEditItem(i)">{{ ingredient.name }} ({{ ingredient.amount }}g)
             </a>
+        </ul>
+    </div>
+</div> -->
+
+<div class="row">
+    <div class="col-xs-11 col-sm-10">
+        <app-shopping-edit></app-shopping-edit>
+        <hr>
+        <ul class="list-group">
+
+            <div 
+                class="row list-group-item"
+                style="cursor: pointer;"
+                (click)="this.onEditItem(i)"
+                *ngFor="let ingredient of (this.ingredients | async).ingredients; let i = index">
+
+                <div class="col-xs-5 col-sm-6">
+                    <p>{{ ingredient.name }} {{ ingredient.amount }}g</p>
+                </div>
+
+                <div class="col-sm-2 col-sm-offset-4 col-xs-3 col-xs-offset-4">
+                    <button 
+                        class="btn btn-primary"
+                        (click)="this.onRemoveItem(i)">Remove</button>
+                </div>
+
+            </div>
+
         </ul>
     </div>
 </div>
