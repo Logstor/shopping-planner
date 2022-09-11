@@ -14,25 +14,20 @@ import * as fromApp from 'src/app/store/app.reducer';
 export class ShoppingListComponent implements OnInit, OnDestroy
 {
   public ingredients: Observable<{ ingredients: Ingredient[] }>;
-  // private ingredientSub: Subscription;
 
   constructor(
     private readonly store: Store<fromApp.AppState>
-    ) { }
+  ) {}
 
   ngOnInit(): void 
   {
     this.ingredients = this.store.select('shoppingList')
   }
 
-  ngOnDestroy(): void 
-  {
-    // this.ingredientSub.unsubscribe();  
-  }
+  ngOnDestroy(): void {}
 
   onEditItem(index: number): void
   {
     this.store.dispatch(new SLA.StartEdit(index));
-    // this.listService.startedEditing.next(index);
   }
 }
