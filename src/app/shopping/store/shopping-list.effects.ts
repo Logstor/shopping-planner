@@ -37,7 +37,10 @@ export class ShoppingListEffects
                 switchMap(() => this.http.get<Ingredient[]>(
                     "https://shoppingplanner-8923c-default-rtdb.europe-west1.firebasedatabase.app/shopping-list.json"
                 )),
-                map((ingredients: Ingredient[]) => new ShoppingListActions.SetIngredients(ingredients))
+                map((ingredients: Ingredient[]) => { 
+                    const safeIngredients: Ingredient[] = ingredients ? ingredients : [];
+                    return new ShoppingListActions.SetIngredients(safeIngredients);
+                })
             )
     });
 }
