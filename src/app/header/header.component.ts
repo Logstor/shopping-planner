@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
+import * as HA from 'src/app/header/store/header.actions';
 import * as AA from '../auth/store/auth.actions';
 import * as RA from 'src/app/recipe/store/recipes.actions';
 import * as SLA from 'src/app/shopping/store/shopping-list.actions';
@@ -44,22 +45,23 @@ export class HeaderComponent implements OnInit, OnDestroy
 
   onSaveData(): void
   {
-    const routeUrl: string = this.router.url;
+    this.store.dispatch(HA.saveRequest());
+    // const routeUrl: string = this.router.url;
 
-    if (routeUrl === '/recipes')
-    {
-      this.subs.push(
-        this.dialogService.confirm(`Overwrite all the Recipes with the current ones?`)
-          .subscribe((isConfirm: boolean) => isConfirm ? this.store.dispatch(new RA.StoreRecipes()) : console.log("Save cancelled"))
-      );
-    }
-    else if (routeUrl === '/shopping-list')
-    {
-      this.subs.push(
-        this.dialogService.confirm(`Overwrite all ingredients with the current ones?`)
-          .subscribe((isConfirm: boolean) => isConfirm ? this.store.dispatch(new SLA.StoreIngredients()) : console.log("Save cancelled"))
-      );
-    }
+    // if (routeUrl === '/recipes')
+    // {
+    //   this.subs.push(
+    //     this.dialogService.confirm(`Overwrite all the Recipes with the current ones?`)
+    //       .subscribe((isConfirm: boolean) => isConfirm ? this.store.dispatch(new RA.StoreRecipes()) : console.log("Save cancelled"))
+    //   );
+    // }
+    // else if (routeUrl === '/shopping-list')
+    // {
+    //   this.subs.push(
+    //     this.dialogService.confirm(`Overwrite all ingredients with the current ones?`)
+    //       .subscribe((isConfirm: boolean) => isConfirm ? this.store.dispatch(new SLA.StoreIngredients()) : console.log("Save cancelled"))
+    //   );
+    // }
   }
 
   onFetchData(): void

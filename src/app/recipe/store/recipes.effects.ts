@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Actions, concatLatestFrom, createEffect, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
-import { map, switchMap, withLatestFrom } from "rxjs/operators";
+import { map, switchMap } from "rxjs/operators";
 
 import * as RA from 'src/app/recipe/store/recipes.actions';
 import { AppState } from "src/app/store/app.reducer";
