@@ -6,6 +6,7 @@ import { map, switchMap } from "rxjs/operators";
 
 import * as RA from 'src/app/recipe/store/recipes.actions';
 import * as HeaderActions from "src/app/header/store/header.actions";
+import * as AuthActions from "src/app/auth/store/auth.actions";
 import { AppState } from "src/app/store/app.reducer";
 import { Recipe } from "../recipes/recipe.model";
 
@@ -30,7 +31,7 @@ export class RecipeEffects
     fetchRecipes$ = createEffect(() => {
         return this.actions$
             .pipe(
-                ofType(RA.FETCH_RECIPES),
+                ofType(RA.FETCH_RECIPES, AuthActions.AUTHENTICATE_SUCCESS),
                 switchMap(() => {
                     return this.http
                         .get<Recipe[]>(

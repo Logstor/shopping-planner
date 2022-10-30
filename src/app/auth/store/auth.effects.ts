@@ -90,6 +90,7 @@ export class AuthEffects
                             ofType(AuthAction.AUTHENTICATE_SUCCESS),
                             tap( (authSuccessAction: AuthAction.AuthenticateSuccess) => {
                                 if (authSuccessAction.payload.redirect)
+                                    // Navigate
                                     this.router.navigate(['/']);
                             })
                         );
