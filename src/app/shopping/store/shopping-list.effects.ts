@@ -5,6 +5,8 @@ import { Store } from "@ngrx/store";
 import { map, switchMap, take, tap } from "rxjs/operators";
 import { Ingredient } from "src/app/shared/Ingredient";
 import * as ShoppingListActions from "src/app/shopping/store/shopping-list.actions";
+import * as HeaderActions from "src/app/header/store/header.actions";
+import * as AuthActions from "src/app/auth/store/auth.actions";
 import { AppState } from "src/app/store/app.reducer";
 
 @Injectable({
@@ -21,7 +23,7 @@ export class ShoppingListEffects
     storeShoppingList$ = createEffect(() => {
         return this.actions$
             .pipe(
-                ofType(ShoppingListActions.STORE_INGREDIENTS),
+                ofType(ShoppingListActions.STORE_INGREDIENTS, HeaderActions.saveRequest),
                 concatLatestFrom(() => this.store.select('shoppingList')),
                 switchMap(([action, shoppingListState]) => this.http.put(
                     "https://shoppingplanner-8923c-default-rtdb.europe-west1.firebasedatabase.app/shopping-list.json",
@@ -33,7 +35,7 @@ export class ShoppingListEffects
     fetchShoppingList$ = createEffect(() => {
         return this.actions$
             .pipe(
-                ofType(ShoppingListActions.FETCH_INGREDIENTS),
+                ofType(ShoppingListActions.FETCH_INGREDIENTS, AuthActions.AUTHENTICATE_SUCCESS),
                 switchMap(() => this.http.get<Ingredient[]>(
                     "https://shoppingplanner-8923c-default-rtdb.europe-west1.firebasedatabase.app/shopping-list.json"
                 )),

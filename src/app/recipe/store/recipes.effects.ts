@@ -2,9 +2,11 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Actions, concatLatestFrom, createEffect, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
-import { map, switchMap, withLatestFrom } from "rxjs/operators";
+import { map, switchMap } from "rxjs/operators";
 
 import * as RA from 'src/app/recipe/store/recipes.actions';
+import * as HeaderActions from "src/app/header/store/header.actions";
+import * as AuthActions from "src/app/auth/store/auth.actions";
 import { AppState } from "src/app/store/app.reducer";
 import { Recipe } from "../recipes/recipe.model";
 
@@ -14,7 +16,7 @@ export class RecipeEffects
     storeRecipes$ = createEffect(() => {
         return this.actions$
             .pipe(
-                ofType(RA.STORE_RECIPES),
+                ofType(RA.STORE_RECIPES, HeaderActions.saveRequest),
                 concatLatestFrom(() => this.store.select('recipes')),
                 switchMap( ([action, recipesState]) => {
                     return this.http
@@ -29,7 +31,7 @@ export class RecipeEffects
     fetchRecipes$ = createEffect(() => {
         return this.actions$
             .pipe(
-                ofType(RA.FETCH_RECIPES),
+                ofType(RA.FETCH_RECIPES, AuthActions.AUTHENTICATE_SUCCESS),
                 switchMap(() => {
                     return this.http
                         .get<Recipe[]>(

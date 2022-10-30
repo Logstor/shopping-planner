@@ -90,6 +90,7 @@ export class AuthEffects
                             ofType(AuthAction.AUTHENTICATE_SUCCESS),
                             tap( (authSuccessAction: AuthAction.AuthenticateSuccess) => {
                                 if (authSuccessAction.payload.redirect)
+                                    // Navigate
                                     this.router.navigate(['/']);
                             })
                         );
@@ -128,14 +129,23 @@ export class AuthEffects
                         {
                             // this.user.next(loadedUser);
                             const expirationDuration = new Date(userData._tokenExpiration).getTime() - new Date().getTime();
-                            this.auth.setLogoutTimer(expirationDuration);
-                            return new AuthAction.AuthenticateSuccess({
-                                email: userData.email,
-                                userId: userData.id,
-                                token: userData._token,
-                                expirationDate: new Date(userData._tokenExpiration),
-                                redirect: false
-                            });
+
+                            // Check if the token isn't too old
+                            if (expirationDuration < 1)
+                            {
+                                return { type: 'DUMMY' };
+                            }
+                            else
+                            {
+                                this.auth.setLogoutTimer(expirationDuration);
+                                return new AuthAction.AuthenticateSuccess({
+                                    email: userData.email,
+                                    userId: userData.id,
+                                    token: userData._token,
+                                    expirationDate: new Date(userData._tokenExpiration),
+                                    redirect: false
+                                });
+                            }
                         }
 
                         return { type: 'DUMMY' };
@@ -150,6 +160,16 @@ export class AuthEffects
         private readonly auth: AuthService
     ) {}
 
+    /**
+     * Handles the last part of the authentication process, where the we have 
+     * gotten a positive response from the server.
+     * 
+     * @param email The authenticated user E-mail.
+     * @param userId The authenticated user ID.
+     * @param token The token from the authenticated response.
+     * @param expiresIn Seconds before the token expires.
+     * @returns An AuthAction.
+     */
     private handleAuthentication(email: string, userId: string, token: string, expiresIn: number): AuthAction.AuthAction
     {
         const expirationDate: Date = new Date(new Date().getTime() + expiresIn * 1000);
