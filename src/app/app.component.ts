@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AuthService } from './auth/auth.service';
+import { environment } from 'src/environments/environment';
 import { AutoLogin } from './auth/store/auth.actions';
 import { AppState } from './store/app.reducer';
 
@@ -12,8 +12,9 @@ import { AppState } from './store/app.reducer';
 })
 export class AppComponent implements OnInit
 {
+  readonly versionName: string = environment.versionName;
+
   constructor(
-    private readonly auth: AuthService, 
     private readonly store: Store<AppState>
   ) {}
 
