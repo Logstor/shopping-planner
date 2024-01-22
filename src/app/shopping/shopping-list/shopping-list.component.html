@@ -21,7 +21,7 @@
 
             <div 
                 class="list-group-item"
-                *ngFor="let ingredient of (this.ingredients | async).ingredients; let i = index">
+                *ngFor="let ingredient of this.ingredients$ | async; let i = index">
 
                 <div 
                     class="row"

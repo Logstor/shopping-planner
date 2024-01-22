@@ -1,13 +1,13 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Actions, concatLatestFrom, createEffect, ofType } from "@ngrx/effects";
-import { Store } from "@ngrx/store";
-import { map, switchMap, take, tap } from "rxjs/operators";
+import { map, switchMap } from "rxjs/operators";
 import { Ingredient } from "src/app/shared/Ingredient";
 import * as ShoppingListActions from "src/app/shopping/store/shopping-list.actions";
 import * as HeaderActions from "src/app/header/store/header.actions";
 import * as AuthActions from "src/app/auth/store/auth.actions";
-import { AppState } from "src/app/store/app.reducer";
+import { shoppingListFeature } from "./shopping-list.reducer";
+import { Store } from "@ngrx/store";
 
 @Injectable({
     providedIn: 'root'
@@ -16,7 +16,7 @@ export class ShoppingListEffects
 {
     constructor(
         private readonly actions$: Actions,
-        private readonly store: Store<AppState>,
+        private readonly store: Store,
         private readonly http: HttpClient
     ) {}
 
@@ -24,10 +24,10 @@ export class ShoppingListEffects
         return this.actions$
             .pipe(
                 ofType(ShoppingListActions.STORE_INGREDIENTS, HeaderActions.saveRequest),
-                concatLatestFrom(() => this.store.select('shoppingList')),
-                switchMap(([action, shoppingListState]) => this.http.put(
+                concatLatestFrom(() => this.store.select(shoppingListFeature.selectIngredients)),
+                switchMap(([action, ingredients]) => this.http.put(
                     "https://shoppingplanner-8923c-default-rtdb.europe-west1.firebasedatabase.app/shopping-list.json",
-                    shoppingListState.ingredients
+                    ingredients
                 ))
             )
     }, { dispatch: false });
