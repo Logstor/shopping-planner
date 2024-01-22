@@ -17,6 +17,7 @@ import { environment } from 'src/environments/environment';
 import { RecipeEffects } from './recipe/store/recipes.effects';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { ShoppingListEffects } from './shopping/store/shopping-list.effects';
+import { shoppingListFeature } from './shopping/store/shopping-list.reducer';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { ShoppingListEffects } from './shopping/store/shopping-list.effects';
     BrowserModule,
     HttpClientModule,
     StoreModule.forRoot(fromApp.appReducer),
+    StoreModule.forFeature(shoppingListFeature),
     EffectsModule.forRoot([
       AuthEffects,
       RecipeEffects,

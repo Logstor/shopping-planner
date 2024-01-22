@@ -1,5 +1,6 @@
 import * as SLA from "./shopping-list.actions";
 import { Ingredient } from "../../shared/Ingredient";
+import { createFeature } from "@ngrx/store";
 
 export interface ShoppingState 
 {
@@ -13,6 +14,11 @@ const initialState: ShoppingState = {
     editedIngredient: null,
     editedIngredientIndex: -1
 };
+
+export const shoppingListFeature = createFeature({
+    name: 'shoppingList',
+    reducer: shoppingListReducer
+});
 
 export function shoppingListReducer(state: ShoppingState = initialState, action: SLA.ShoppingListAction) 
 {
