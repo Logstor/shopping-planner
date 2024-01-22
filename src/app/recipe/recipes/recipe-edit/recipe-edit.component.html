@@ -56,6 +56,8 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Ingredients -->
             <div class="row">
                 <div class="col-xs-12" formArrayName="ingredients">
                     <div 
@@ -63,18 +65,24 @@
                         *ngFor="let control of this.ingredientControls; let i = index;"
                         [formGroupName]="i"
                         style="margin-top: 10px;">
-                        <div class="col-xs-8">
+
+                        <!-- Name -->
+                        <div class="col-xs-7 col-sm-8">
                             <input 
                                 type="text"
                                 class="form-control"
                                 formControlName="name">
                         </div>
-                        <div class="col-xs-2">
+
+                        <!-- Amount -->
+                        <div class="col-xs-3 col-sm-2">
                             <input 
                                 type="number"
                                 class="form-control"
                                 formControlName="amount">
                         </div>
+
+                        <!-- Delete -->
                         <div class="col-xs-2">
                             <button 
                                 class="btn btn-danger"
