@@ -1,4 +1,4 @@
-import { User } from "../user.model";
+import { User } from "../../shared/model/user.model";
 import * as AA from "./auth.actions";
 
 export interface AuthState 

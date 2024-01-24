@@ -10,7 +10,7 @@ import { environment } from "src/environments/environment";
 import { AuthService } from "../auth.service";
 import { SignInRequest } from "../sign-in-request.model";
 import { SignUpRequest } from "../sign-up-request.model";
-import { User } from "../user.model";
+import { User } from "../../shared/model/user.model";
 
 /**
  * Response interface for signin and signup requests.
