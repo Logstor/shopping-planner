@@ -1,6 +1,7 @@
 import { createSelector } from "@ngrx/store";
+
 import { shoppingListFeature } from "./shopping-list.reducer";
-import { Ingredient } from "src/app/shared/Ingredient";
+import { Ingredient } from "src/app/shared/model/Ingredient";
 
 const {
     selectIngredients,

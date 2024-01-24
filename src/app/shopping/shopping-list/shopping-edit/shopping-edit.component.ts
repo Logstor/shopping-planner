@@ -2,11 +2,11 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
+import { filter, withLatestFrom } from 'rxjs/operators';
 
-import { Ingredient } from 'src/app/shared/Ingredient';
 import * as ShoppingListActions from '../../store/shopping-list.actions';
 import { shoppingListSelectors } from '../../store/shopping-list.selectors';
-import { filter, withLatestFrom } from 'rxjs/operators';
+import { Ingredient } from 'src/app/shared/model/Ingredient';
 
 
 @Component({

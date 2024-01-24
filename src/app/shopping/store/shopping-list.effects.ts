@@ -2,12 +2,13 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Actions, concatLatestFrom, createEffect, ofType } from "@ngrx/effects";
 import { map, switchMap } from "rxjs/operators";
-import { Ingredient } from "src/app/shared/Ingredient";
+import { Store } from "@ngrx/store";
+
 import * as ShoppingListActions from "src/app/shopping/store/shopping-list.actions";
 import * as HeaderActions from "src/app/header/store/header.actions";
 import * as AuthActions from "src/app/auth/store/auth.actions";
 import { shoppingListFeature } from "./shopping-list.reducer";
-import { Store } from "@ngrx/store";
+import { Ingredient } from "src/app/shared/model/Ingredient";
 
 @Injectable({
     providedIn: 'root'
