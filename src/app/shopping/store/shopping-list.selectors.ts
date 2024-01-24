@@ -1,22 +1,15 @@
-import { createSelector } from "@ngrx/store";
-
 import { shoppingListFeature } from "./shopping-list.reducer";
-import { Ingredient } from "src/app/shared/model/Ingredient";
 
 const {
-    selectIngredients,
+    selectShoppingLists,
+    selectSharedShoppingLists,
     selectEditedIngredient,
     selectEditedIngredientIndex
 } = shoppingListFeature;
 
-const selectIngredientsSorted = createSelector(
-    selectIngredients,
-    (ingredients: Ingredient[]) => [...ingredients].sort((a, b) => a.name.localeCompare(b.name)) 
-);
-
 export const shoppingListSelectors = {
-    selectIngredients,
+    selectShoppingLists,
+    selectSharedShoppingLists,
     selectEditedIngredient,
-    selectEditedIngredientIndex,
-    selectIngredientsSorted
+    selectEditedIngredientIndex
 };
