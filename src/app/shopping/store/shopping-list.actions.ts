@@ -1,93 +1,59 @@
-import { Action } from "@ngrx/store";
+import { createAction, props } from "@ngrx/store";
+
 import { Ingredient } from "src/app/shared/model/Ingredient";
+import { ShoppingList } from "src/app/shared/model/shopping-list";
 
-export const STORE_INGREDIENTS = '[Shopping List] Store Ingredients';
-export const FETCH_INGREDIENTS = '[Shopping List] Fetch Ingredients';
-export const SET_INGREDIENTS = '[Shopping List] Set Ingredients';
-export const ADD_INGREDIENT = '[Shopping List] Add Ingredient';
-export const ADD_INGREDIENTS = '[Shopping List] Add Ingredients';
-export const MERGE_INGREDIENTS = '[Shopping List] Merge Ingredients';
-export const UPDATE_INGREDIENT = '[Shopping List] Update Ingredient';
-export const DELETE_INGREDIENT = '[Shopping List] Delete Ingredient';
-export const START_EDIT = '[Shopping List] Start Edit';
-export const STOP_EDIT = '[Shopping List] Stop Edit';
+/**
+ * When the component requests to add an ingredient to a given shopping list.
+ * 
+ * This should be handled by the effects.
+ */
+const componentAddIngredient = createAction(
+    '[Shopping List Component] Add Ingredient',
+    props<{ ingredient: Ingredient, listId: string}>()
+);
 
-export class StoreIngredients implements Action
-{
-    readonly type: string = STORE_INGREDIENTS;
+/**
+ * When the component requests to remove an ingredient from a given shopping list.
+ * 
+ * This should be handled by the effects.
+ */
+const componentRemoveIngredient = createAction(
+    '[Shopping List Component] Remove ingredient',
+    props<{ ingredientName: string, listId: string}>()
+);
 
-    constructor() {}
-}
+const startEdit = createAction(
+    '[Shopping List Component] Start Edit',
+    //TODO: Remove either ingredientName or ingredientIndex
+    props<{ ingredientName: string, ingredientIndex: number, listId: string }>()
+);
 
-export class FetchIngredients implements Action
-{
-    readonly type: string = FETCH_INGREDIENTS;
+const stopEdit = createAction(
+    '[Shopping List Component] Stop Edit'
+);
 
-    constructor() {}
-}
+const addShoppingList = createAction(
+    '[Shopping List Effects] Add Shopping List',
+    props<{ list: ShoppingList, shared: boolean }>()
+);
 
-export class SetIngredients implements Action
-{
-    readonly type: string = SET_INGREDIENTS;
+const updateShoppingList = createAction(
+    '[Shopping List Effects] Update Shopping List',
+    props<{ list: ShoppingList, shared: boolean }>()
+);
 
-    constructor(public payload: Ingredient[]) {}
-}
+const deleteShoppingList = createAction(
+    '[Shopping List Effects] Delete Shopping List',
+    props<{ listId: string, shared: boolean }>()
+);
 
-export class AddIngredient implements Action
-{
-    readonly type: string = ADD_INGREDIENT;
-
-    constructor(public payload: Ingredient) {}
-}
-
-export class AddIngredients implements Action
-{
-    readonly type: string = ADD_INGREDIENTS;
-
-    constructor(public payload: Ingredient[]) {}
-}
-
-export class MergeIngredients implements Action
-{
-    readonly type: string = MERGE_INGREDIENTS;
-
-    constructor(public payload: Ingredient[]) {}
-}
-
-export class UpdateIngredient implements Action
-{
-    readonly type: string = UPDATE_INGREDIENT;
-
-    constructor(public payload: Ingredient) {}
-}
-
-export class DeleteIngredient implements Action
-{
-    readonly type: string = DELETE_INGREDIENT;
-
-    constructor() {}
-}
-
-export class StartEdit implements Action 
-{
-    readonly type: string = START_EDIT;
-
-    /**
-     * 
-     * @param payload Needs to be index of the ingredient to edit.
-     */
-    constructor(public payload: number) {}
-}
-
-export class StopEdit implements Action 
-{
-    readonly type: string = STOP_EDIT;
-}
-
-export type ShoppingListAction = 
-    | AddIngredient 
-    | AddIngredients 
-    | UpdateIngredient 
-    | DeleteIngredient
-    | StartEdit
-    | StopEdit;
+export const shoppingListActions = {
+    componentAddIngredient,
+    componentRemoveIngredient,
+    startEdit,
+    stopEdit,
+    addShoppingList,
+    updateShoppingList,
+    deleteShoppingList
+};
