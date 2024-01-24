@@ -1,6 +1,7 @@
-import * as SLA from "./shopping-list.actions";
-import { Ingredient } from "../../shared/Ingredient";
 import { createFeature } from "@ngrx/store";
+
+import * as SLA from "./shopping-list.actions";
+import { Ingredient } from "../../shared/model/Ingredient";
 
 export interface ShoppingState 
 {
