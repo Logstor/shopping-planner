@@ -14,6 +14,16 @@ const componentAddIngredient = createAction(
 );
 
 /**
+ * When the component requests to update an ingredient in a given shopping list.
+ * 
+ * This should be handled by the effects.
+ */
+const componentUpdateIngredient = createAction(
+    '[Shopping List Component] Add Ingredient',
+    props<{ ingredient: Ingredient, listId: string}>()
+);
+
+/**
  * When the component requests to remove an ingredient from a given shopping list.
  * 
  * This should be handled by the effects.
@@ -25,8 +35,11 @@ const componentRemoveIngredient = createAction(
 
 const startEdit = createAction(
     '[Shopping List Component] Start Edit',
-    //TODO: Remove either ingredientName or ingredientIndex
-    props<{ ingredientName: string, ingredientIndex: number, listId: string }>()
+    props<{ 
+        ingredientIndex: number, 
+        listId: string,
+        isShared: boolean
+    }>()
 );
 
 const stopEdit = createAction(
@@ -35,17 +48,17 @@ const stopEdit = createAction(
 
 const addShoppingList = createAction(
     '[Shopping List Effects] Add Shopping List',
-    props<{ list: ShoppingList, shared: boolean }>()
+    props<{ list: ShoppingList, isShared: boolean }>()
 );
 
 const updateShoppingList = createAction(
     '[Shopping List Effects] Update Shopping List',
-    props<{ list: ShoppingList, shared: boolean }>()
+    props<{ list: ShoppingList, isShared: boolean }>()
 );
 
 const deleteShoppingList = createAction(
     '[Shopping List Effects] Delete Shopping List',
-    props<{ listId: string, shared: boolean }>()
+    props<{ listId: string, isShared: boolean }>()
 );
 
 export const shoppingListActions = {
