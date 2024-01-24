@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { switchMap } from "rxjs/operators";
-import { Store } from "@ngrx/store";
 
 import { ShoppingListService } from "src/app/shared/services/shopping-list/shopping-list.service";
 import { shoppingListActions } from "./shopping-list.actions";
@@ -13,7 +12,6 @@ export class ShoppingListEffects
 {
     constructor(
         private readonly actions$: Actions,
-        private readonly store: Store,
         private readonly shoppingListService: ShoppingListService
     ) {}
 
