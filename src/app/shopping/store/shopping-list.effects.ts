@@ -1,14 +1,10 @@
-import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Actions, concatLatestFrom, createEffect, ofType } from "@ngrx/effects";
-import { map, switchMap } from "rxjs/operators";
+import { Actions, createEffect, ofType } from "@ngrx/effects";
+import { switchMap } from "rxjs/operators";
 import { Store } from "@ngrx/store";
 
-import * as ShoppingListActions from "src/app/shopping/store/shopping-list.actions";
-import * as HeaderActions from "src/app/header/store/header.actions";
-import * as AuthActions from "src/app/auth/store/auth.actions";
-import { shoppingListFeature } from "./shopping-list.reducer";
-import { Ingredient } from "src/app/shared/model/Ingredient";
+import { ShoppingListService } from "src/app/shared/services/shopping-list/shopping-list.service";
+import { shoppingListActions } from "./shopping-list.actions";
 
 @Injectable({
     providedIn: 'root'
@@ -18,32 +14,20 @@ export class ShoppingListEffects
     constructor(
         private readonly actions$: Actions,
         private readonly store: Store,
-        private readonly http: HttpClient
+        private readonly shoppingListService: ShoppingListService
     ) {}
 
-    storeShoppingList$ = createEffect(() => {
-        return this.actions$
-            .pipe(
-                ofType(ShoppingListActions.STORE_INGREDIENTS, HeaderActions.saveRequest),
-                concatLatestFrom(() => this.store.select(shoppingListFeature.selectIngredients)),
-                switchMap(([action, ingredients]) => this.http.put(
-                    "https://shoppingplanner-8923c-default-rtdb.europe-west1.firebasedatabase.app/shopping-list.json",
-                    ingredients
-                ))
-            )
-    }, { dispatch: false });
+    readonly addIngredient$ = createEffect(() => this.actions$
+        .pipe(
+            ofType(shoppingListActions.componentAddIngredient),
+            switchMap(action => this.shoppingListService.addIngredient(action.listId, action.ingredient))
+        ), 
+    { dispatch: false});
 
-    fetchShoppingList$ = createEffect(() => {
-        return this.actions$
-            .pipe(
-                ofType(ShoppingListActions.FETCH_INGREDIENTS, AuthActions.AUTHENTICATE_SUCCESS),
-                switchMap(() => this.http.get<Ingredient[]>(
-                    "https://shoppingplanner-8923c-default-rtdb.europe-west1.firebasedatabase.app/shopping-list.json"
-                )),
-                map((ingredients: Ingredient[]) => { 
-                    const safeIngredients: Ingredient[] = ingredients ? ingredients : [];
-                    return new ShoppingListActions.SetIngredients(safeIngredients);
-                })
-            )
-    });
+    readonly deleteIngredient$ = createEffect(() => this.actions$
+        .pipe(
+            ofType(shoppingListActions.componentRemoveIngredient),
+            switchMap(action => this.shoppingListService.deleteIngredient(action.listId, action.ingredientName))
+        ),
+    { dispatch: false });
 }
