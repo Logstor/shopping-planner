@@ -5,7 +5,11 @@
 export const environment = {
   production: false,
   versionName: "Development",
-  firebaseAPIKey: 'AIzaSyBLEA8KuOMrUfmFJu3uwna9rix-vAPNA44'
+  firebaseAPIKey: 'AIzaSyBLEA8KuOMrUfmFJu3uwna9rix-vAPNA44',
+  firebaseProjectCfg: {
+    projectId: 'shoppingplanner-8923c',
+    apiKey: 'AIzaSyBLEA8KuOMrUfmFJu3uwna9rix-vAPNA44'
+  }
 };
 
 /*

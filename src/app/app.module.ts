@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
+import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -11,13 +13,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { SharedModule } from './shared/shared.module';
 import { CoreModule } from './core.module';
 import * as fromApp from 'src/app/store/app.reducer';
-import { EffectsModule } from '@ngrx/effects';
 import { AuthEffects } from './auth/store/auth.effects';
 import { environment } from 'src/environments/environment';
 import { RecipeEffects } from './recipe/store/recipes.effects';
-import { ServiceWorkerModule } from '@angular/service-worker';
 import { ShoppingListEffects } from './shopping/store/shopping-list.effects';
 import { shoppingListFeature } from './shopping/store/shopping-list.reducer';
+import { FirebaseModule } from './firebase.module';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { shoppingListFeature } from './shopping/store/shopping-list.reducer';
     }),
     AppRoutingModule,
     CoreModule,
+    FirebaseModule,
     SharedModule,
   ],
   providers: [],
